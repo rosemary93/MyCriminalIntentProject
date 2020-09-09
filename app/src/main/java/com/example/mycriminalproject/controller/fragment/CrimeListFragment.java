@@ -1,5 +1,6 @@
 package com.example.mycriminalproject.controller.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.example.mycriminalproject.R;
+import com.example.mycriminalproject.controller.activity.CrimeDetailActivity;
 import com.example.mycriminalproject.model.Crime;
 import com.example.mycriminalproject.repository.CrimeRepository;
 
@@ -28,6 +30,7 @@ import java.util.List;
  */
 public class CrimeListFragment extends Fragment {
 
+    public static final String EXTRA_CRIME_ID = "com.example.mycriminalproject.crimeId";
     RecyclerView mRecyclerView;
 
 
@@ -70,6 +73,16 @@ public class CrimeListFragment extends Fragment {
 
             mTextViewTitle=itemView.findViewById(R.id.textView_row_crime_title);
             mTextViewDate=itemView.findViewById(R.id.textView_row_crime_date);
+
+            //vaghti ruye har satr click mikonim bere dakhele crime detail
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(getActivity(), CrimeDetailActivity.class);
+                    intent.putExtra(EXTRA_CRIME_ID,mCrime.getId());
+                    startActivity(intent);
+                }
+            });
         }
 
         public void bindCrime(Crime crime)

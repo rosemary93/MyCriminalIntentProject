@@ -14,6 +14,9 @@ import android.widget.EditText;
 
 import com.example.mycriminalproject.R;
 import com.example.mycriminalproject.model.Crime;
+import com.example.mycriminalproject.repository.CrimeRepository;
+
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,9 +36,9 @@ public class CrimeDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCrime=new Crime();
-        mCrime.setTitle("testing crime");
-        mCrime.setSolved(true);
+        UUID id= (UUID) getActivity().getIntent().getSerializableExtra(CrimeListFragment.EXTRA_CRIME_ID);
+        CrimeRepository crimeRepository=CrimeRepository.getInstance();
+        mCrime=crimeRepository.getCrime(id);
 
     }
 
