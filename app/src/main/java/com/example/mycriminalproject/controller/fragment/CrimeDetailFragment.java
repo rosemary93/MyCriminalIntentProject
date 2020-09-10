@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.example.mycriminalproject.R;
+import com.example.mycriminalproject.controller.activity.CrimeDetailActivity;
 import com.example.mycriminalproject.model.Crime;
 import com.example.mycriminalproject.repository.CrimeRepository;
 
@@ -24,10 +25,13 @@ import java.util.UUID;
  * create an instance of this fragment.
  */
 public class CrimeDetailFragment extends Fragment {
+    public static final String ARGS_CRIME_ID = "crimeId";
+
     EditText mEditTextTitle;
     Button mButtonDate;
     CheckBox mCheckBoxSolved;
     Crime mCrime;
+    CrimeRepository mRepository;
     public CrimeDetailFragment() {
         // Required empty public constructor
     }
@@ -36,9 +40,13 @@ public class CrimeDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UUID id= (UUID) getActivity().getIntent().getSerializableExtra(CrimeListFragment.EXTRA_CRIME_ID);
-        CrimeRepository crimeRepository=CrimeRepository.getInstance();
-        mCrime=crimeRepository.getCrime(id);
+        mRepository=CrimeRepository.getInstance();
+        //in kar ghalat ast chon fragment vabaste be activity mishe(getActivity)
+        //this is storage for hosting activity
+       // UUID id= (UUID) getActivity().getIntent().getSerializableExtra(CrimeListFragment.EXTRA_CRIME_ID);
+
+        UUID id= (UUID) getArguments().getSerializable(ARGS_CRIME_ID);
+        mCrime=mRepository.getCrime(id);
 
     }
 
@@ -56,6 +64,15 @@ public class CrimeDetailFragment extends Fragment {
         mButtonDate.setEnabled(false);
         return view;
 
+    }
+
+    public static CrimeDetailFragment newInstance(UUID crimeId) {
+
+        Bundle args = new Bundle();
+        args.putSerializable(ARGS_CRIME_ID,crimeId);
+        CrimeDetailFragment fragment = new CrimeDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     private void setListeners() {
