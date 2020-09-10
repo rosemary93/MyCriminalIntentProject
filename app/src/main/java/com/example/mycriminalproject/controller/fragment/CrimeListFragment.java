@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mycriminalproject.R;
@@ -65,6 +66,7 @@ public class CrimeListFragment extends Fragment {
     //vazife viewHolder negah dashtane refrence az mohtaviAte har row hast
        private TextView mTextViewTitle;
        private TextView mTextViewDate;
+       private ImageView mImageViewSolved;
        private Crime mCrime;
 
         public CrimeHolder(@NonNull View itemView) {
@@ -73,6 +75,7 @@ public class CrimeListFragment extends Fragment {
 
             mTextViewTitle=itemView.findViewById(R.id.textView_row_crime_title);
             mTextViewDate=itemView.findViewById(R.id.textView_row_crime_date);
+            mImageViewSolved=itemView.findViewById(R.id.imageView_solved);
 
             //vaghti ruye har satr click mikonim bere dakhele crime detail
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +93,12 @@ public class CrimeListFragment extends Fragment {
             mCrime=crime;
             mTextViewTitle.setText(crime.getTitle());
             mTextViewDate.setText(crime.getDate().toString());
+            if (mCrime.isSolved())
+            {
+                mImageViewSolved.setImageResource(R.drawable.ic_arrested);
+            }else {
+                mImageViewSolved.setImageResource(R.drawable.ic_not_arrested);
+            }
         }
 
     }
